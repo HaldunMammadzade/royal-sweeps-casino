@@ -18,7 +18,6 @@ import {
 } from 'lucide-react';
 import Button from '@/components/common/Button';
 import { useAuth } from '@/hooks/useAuth';
-import { VIP_LEVELS } from '@/utils/constants';
 import { formatCurrency } from '@/utils/helpers';
 
 const VipPage: React.FC = () => {
@@ -501,7 +500,7 @@ const VipPage: React.FC = () => {
           )}
         </motion.div>
 
-        {/* Upcoming Rewards */}
+        {/* Upcoming Rewards and Statistics */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -651,7 +650,7 @@ const VipPage: React.FC = () => {
               <div className="text-center">
                 <Zap className="w-6 h-6 text-gold-500 mx-auto mb-2" />
                 <div className="font-semibold text-white">Priority Response</div>
-                <div className="text-sm text-gray-400"> 5 minutes</div>
+                <div className="text-sm text-gray-400">5 minutes</div>
               </div>
               <div className="text-center">
                 <Shield className="w-6 h-6 text-gold-500 mx-auto mb-2" />

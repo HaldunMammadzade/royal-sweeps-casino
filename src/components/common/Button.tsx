@@ -1,8 +1,8 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, type HTMLMotionProps } from 'framer-motion';
 import { cn } from '@/utils/helpers';
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonProps extends Omit<HTMLMotionProps<"button">, 'children'> {
   variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger' | 'success';
   size?: 'sm' | 'md' | 'lg' | 'xl';
   loading?: boolean;
@@ -10,6 +10,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   rightIcon?: React.ReactNode;
   fullWidth?: boolean;
   animated?: boolean;
+  children: React.ReactNode;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -85,7 +86,7 @@ const Button: React.FC<ButtonProps> = ({
     <button
       className={buttonClasses}
       disabled={disabled || loading}
-      {...props}
+      {...(props as React.ButtonHTMLAttributes<HTMLButtonElement>)}
     >
       <ButtonContent />
     </button>

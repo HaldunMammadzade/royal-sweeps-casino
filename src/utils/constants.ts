@@ -30,7 +30,7 @@ export const GAME_CATEGORY_LABELS = {
 } as const;
 
 // VIP Levels
-export const VIP_LEVELS = {
+export const VIP_LEVELS_CONFIG = {
   BRONZE: { level: 1, name: 'Bronze', requirement: 0, color: '#CD7F32' },
   SILVER: { level: 2, name: 'Silver', requirement: 1000, color: '#C0C0C0' },
   GOLD: { level: 3, name: 'Gold', requirement: 5000, color: '#FFD700' },

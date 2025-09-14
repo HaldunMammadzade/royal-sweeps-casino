@@ -23,16 +23,19 @@ export default defineConfig({
     open: true
   },
   build: {
+    target: 'es2020',
     outDir: 'dist',
-    sourcemap: true,
+    sourcemap: false, 
     rollupOptions: {
       output: {
         manualChunks: {
           vendor: ['react', 'react-dom'],
           router: ['react-router-dom'],
           animations: ['framer-motion'],
+          ui: ['lucide-react', 'react-hot-toast'],
         }
       }
-    }
+    },
+    chunkSizeWarningLimit: 1000
   }
 })
