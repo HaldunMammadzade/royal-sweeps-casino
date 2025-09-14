@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Royal Sweeps - Premium Sweepstakes Casino with exclusive games, VIP rewards, and royal treatment. Play for free and win real prizes!" />
+    <meta name="keywords" content="sweepstakes casino, online casino, slot games, free games, win prizes, VIP casino" />
+    <meta name="author" content="Royal Sweeps Casino" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://royalsweeps.com/" />
+    <meta property="og:title" content="Royal Sweeps - Premium Sweepstakes Casino" />
+    <meta property="og:description" content="Experience the ultimate sweepstakes casino with premium games, exclusive rewards, and VIP treatment." />
+    <meta property="og:image" content="/favicon.svg" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://royalsweeps.com/" />
+    <meta property="twitter:title" content="Royal Sweeps - Premium Sweepstakes Casino" />
+    <meta property="twitter:description" content="Experience the ultimate sweepstakes casino with premium games, exclusive rewards, and VIP treatment." />
+    <meta property="twitter:image" content="/favicon.svg" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    
+    <!-- Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+    
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#FFD700" />
+    <meta name="msapplication-TileColor" content="#FFD700" />
+    
+    <!-- Preconnect to external domains -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    
+    <!-- CSS Reset and normalize -->
+    <style>
+      /* Immediate loading styles to prevent FOUC */
+      html {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+        padding: 0;
+        min-height: 100%;
+        background-color: #0a0a0a;
+        color: #ffffff;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+      }
+      
+      /* Loading screen */
+      #loading-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        transition: opacity 0.5s ease-out;
+      }
+      
+      #loading-screen.hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+      
+      .loading-logo {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, #ffd700 0%, #ffaa00 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+        animation: pulse 2s ease-in-out infinite alternate;
+      }
+      
+      .loading-text {
+        color: #ffd700;
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        text-align: center;
+      }
+      
+      .loading-subtitle {
+        color: #888;
+        font-size: 14px;
+        text-align: center;
+      }
+      
+      @keyframes pulse {
+        0% {
+          box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+          transform: scale(1);
+        }
+        100% {
+          box-shadow: 0 0 40px rgba(255, 215, 0, 0.8);
+          transform: scale(1.05);
+        }
+      }
+      
+      .loading-spinner {
+        width: 40px;
+        height: 40px;
+        border: 3px solid #333;
+        border-top: 3px solid #ffd700;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin-top: 20px;
+      }
+      
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      
+      /* Hide scrollbar during loading */
+      body.loading {
+        overflow: hidden;
+      }
+    </style>
+
+    <title>Royal Sweeps - Premium Sweepstakes Casino</title>
+  </head>
+  <body class="loading">
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+      <div class="loading-logo">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0a0a0a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 3h12l4 6-10 13L2 9l4-6z"/>
+        </svg>
+      </div>
+      <div class="loading-text">Royal Sweeps</div>
+      <div class="loading-subtitle">Loading your royal experience...</div>
+      <div class="loading-spinner"></div>
+    </div>
+
+    <!-- Main App -->
+    <div id="root"></div>
+
+    <!-- Age Verification Modal (for compliance) -->
+    <div id="age-verification" style="display: none;">
+      <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 10000; display: flex; align-items: center; justify-content: center;">
+        <div style="background: #1a1a1a; border: 1px solid #3a3a3a; border-radius: 12px; padding: 30px; max-width: 400px; text-align: center;">
+          <h2 style="color: #ffd700; margin-bottom: 20px;">Age Verification Required</h2>
+          <p style="color: #ccc; margin-bottom: 30px;">You must be 18 years or older to access this site.</p>
+          <div style="display: flex; gap: 15px; justify-content: center;">
+            <button id="age-yes" style="background: #ffd700; color: #0a0a0a; border: none; padding: 12px 24px; border-radius: 8px; font-weight: bold; cursor: pointer;">I am 18+</button>
+            <button id="age-no" style="background: #333; color: #fff; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer;">I am under 18</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Age verification check
+      function checkAgeVerification() {
+        const ageVerified = localStorage.getItem('age_verified');
+        if (!ageVerified) {
+          document.getElementById('age-verification').style.display = 'block';
+        }
+      }
+
+      // Age verification handlers
+      document.getElementById('age-yes')?.addEventListener('click', function() {
+        localStorage.setItem('age_verified', 'true');
+        document.getElementById('age-verification').style.display = 'none';
+      });
+
+      document.getElementById('age-no')?.addEventListener('click', function() {
+        window.location.href = 'https://www.google.com';
+      });
+
+      // Loading screen management
+      function hideLoadingScreen() {
+        const loadingScreen = document.getElementById('loading-screen');
+        const body = document.body;
+        
+        loadingScreen.classList.add('hidden');
+        body.classList.remove('loading');
+        
+        setTimeout(() => {
+          loadingScreen.style.display = 'none';
+        }, 500);
+      }
+
+      // Initialize when DOM is loaded
+      document.addEventListener('DOMContentLoaded', function() {
+        // Check age verification
+        checkAgeVerification();
+        
+        // Hide loading screen when React app is ready
+        // This will be called from the React app
+        window.hideLoadingScreen = hideLoadingScreen;
+        
+        // Fallback: hide loading screen after maximum time
+        setTimeout(hideLoadingScreen, 5000);
+      });
+
+      // PWA Service Worker registration
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/sw.js')
+            .then(function(registration) {
+              console.log('SW registered: ', registration);
+            })
+            .catch(function(registrationError) {
+              console.log('SW registration failed: ', registrationError);
+            });
+        });
+      }
+
+      // Disable right-click context menu (optional security measure)
+      document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+      });
+
+      // Disable F12, Ctrl+Shift+I, Ctrl+U (optional security measure)
+      document.addEventListener('keydown', function(e) {
+        if (e.keyCode === 123 || // F12
+            (e.ctrlKey && e.shiftKey && e.keyCode === 73) || // Ctrl+Shift+I
+            (e.ctrlKey && e.keyCode === 85)) { // Ctrl+U
+          e.preventDefault();
+        }
+      });
+    </script>
+
+    <script type="module" src="/src/main.tsx"></script>
+
+    <!-- Analytics placeholder (replace with actual analytics) -->
+    <script>
+      // Google Analytics or other analytics code would go here
+      console.log('Analytics placeholder');
+    </script>
+  </body>
+</html>

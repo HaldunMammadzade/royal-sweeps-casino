@@ -1,0 +1,22 @@
+{
+  "name": "Royal Sweeps Casino",
+  "short_name": "Royal Sweeps",
+  "description": "Premium Sweepstakes Casino with exclusive games, VIP rewards, and royal treatment",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#FFD700",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en",
+  "dir": "ltr",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["games", "entertainment"]
+}
