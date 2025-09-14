@@ -1,7 +1,53 @@
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
 import type { User, AuthState, LoginCredentials, RegisterData } from '../types';
-import { STORAGE_KEYS, VIP_LEVELS } from '../utils/constants';
+import { STORAGE_KEYS } from '../utils/constants';
 import { getStorageItem, setStorageItem, removeStorageItem } from '../utils/helpers';
+
+// VIP Level definition
+const VIP_LEVELS = {
+  BRONZE: { 
+    level: 1, 
+    name: 'Bronze', 
+    progress: 0, 
+    benefits: ['Basic Support', 'Standard Games', 'Basic Bonuses'],
+    nextLevelRequirement: 1000 
+  },
+  SILVER: { 
+    level: 2, 
+    name: 'Silver', 
+    progress: 25, 
+    benefits: ['Priority Support', 'Exclusive Games', 'Enhanced Bonuses', 'Weekly Cashback'],
+    nextLevelRequirement: 5000 
+  },
+  GOLD: { 
+    level: 3, 
+    name: 'Gold', 
+    progress: 60, 
+    benefits: ['VIP Support', 'Premium Games', 'Higher Bonuses', 'Daily Cashback', 'Account Manager'],
+    nextLevelRequirement: 15000 
+  },
+  PLATINUM: { 
+    level: 4, 
+    name: 'Platinum', 
+    progress: 80, 
+    benefits: ['Dedicated Support', 'VIP Tournaments', 'Maximum Bonuses', 'Luxury Perks'],
+    nextLevelRequirement: 50000 
+  },
+  DIAMOND: { 
+    level: 5, 
+    name: 'Diamond', 
+    progress: 95, 
+    benefits: ['White Glove Service', 'Private Events', 'Ultimate Rewards', 'Custom Limits'],
+    nextLevelRequirement: 150000 
+  },
+  ROYAL: { 
+    level: 6, 
+    name: 'Royal', 
+    progress: 100, 
+    benefits: ['Concierge Service', 'Unlimited Everything', 'Luxury Experiences', 'Royal Treatment'],
+    nextLevelRequirement: 0 
+  },
+};
 
 // Mock user data
 const mockUser: User = {

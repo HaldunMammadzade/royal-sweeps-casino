@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
@@ -14,8 +14,8 @@ import {
   Search
 } from 'lucide-react';
 import Button from './Button';
-import { useAuth } from '../../hooks/useAuth';
-import { formatCurrency } from '../../utils/helpers';
+import { useAuth } from '@/context/AuthContext';
+import { formatCurrency } from '@/utils/helpers';
 
 const Header: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -23,6 +23,8 @@ const Header: React.FC = () => {
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const { user, isAuthenticated, logout } = useAuth();
   const location = useLocation();
+  const profileRef = useRef<HTMLDivElement>(null);
+  const notificationRef = useRef<HTMLDivElement>(null);
 
   const navigation = [
     { name: 'Games', href: '/games', current: location.pathname === '/games' },
@@ -32,9 +34,32 @@ const Header: React.FC = () => {
     { name: 'Support', href: '/support', current: location.pathname === '/support' },
   ];
 
+  // Close dropdowns when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (profileRef.current && !profileRef.current.contains(event.target as Node)) {
+        setIsProfileOpen(false);
+      }
+      if (notificationRef.current && !notificationRef.current.contains(event.target as Node)) {
+        setIsNotificationsOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
-  const toggleProfile = () => setIsProfileOpen(!isProfileOpen);
-  const toggleNotifications = () => setIsNotificationsOpen(!isNotificationsOpen);
+  const toggleProfile = () => {
+    setIsProfileOpen(!isProfileOpen);
+    setIsNotificationsOpen(false);
+  };
+  const toggleNotifications = () => {
+    setIsNotificationsOpen(!isNotificationsOpen);
+    setIsProfileOpen(false);
+  };
 
   const mockNotifications = [
     { id: 1, title: 'Welcome Bonus', message: 'Your 100% bonus is ready!', time: '2 min ago', unread: true },
@@ -47,9 +72,9 @@ const Header: React.FC = () => {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
-          <div className="flex items-center">
-            <Link to="/" className="flex items-center space-x-2">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-gold">
+          <div className="flex items-center flex-shrink-0">
+            <Link to="/" className="flex items-center space-x-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-r from-gold-500 to-gold-600">
                 <Crown className="h-6 w-6 text-casino-dark" />
               </div>
               <div className="hidden sm:block">
@@ -62,12 +87,16 @@ const Header: React.FC = () => {
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex space-x-8">
+          <nav className="hidden md:flex items-center space-x-6">
             {navigation.map((item) => (
               <Link
                 key={item.name}
                 to={item.href}
-                className={`nav-link ${item.current ? 'active' : ''}`}
+                className={`nav-link px-3 py-2 text-sm font-medium transition-colors duration-200 ${
+                  item.current 
+                    ? 'text-gold-500' 
+                    : 'text-gray-300 hover:text-white'
+                }`}
               >
                 {item.name}
               </Link>
@@ -75,7 +104,7 @@ const Header: React.FC = () => {
           </nav>
 
           {/* Right side */}
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-3">
             {/* Search Button */}
             <Button
               variant="ghost"
@@ -89,15 +118,16 @@ const Header: React.FC = () => {
             {isAuthenticated ? (
               <>
                 {/* Balance Display */}
-                <div className="hidden lg:flex items-center space-x-4">
-                  <div className="balance-card py-2 px-4">
-                    <div className="flex items-center space-x-4">
+                <div className="hidden lg:block">
+                  <div className="bg-casino-card border border-casino-border rounded-lg px-4 py-2" style={{width: '250px'}}>
+                    <div className="flex items-center space-x-4 text-sm">
                       <div className="text-center">
                         <p className="text-xs text-gray-400">Gold Coins</p>
                         <p className="font-bold text-gold-500">
                           {formatCurrency(user?.balance?.goldCoins || 0, 'gold')}
                         </p>
                       </div>
+                      <div className="w-px h-6 bg-casino-border" />
                       <div className="text-center">
                         <p className="text-xs text-gray-400">Sweep Coins</p>
                         <p className="font-bold text-green-500">
@@ -109,7 +139,7 @@ const Header: React.FC = () => {
                 </div>
 
                 {/* Notifications */}
-                <div className="relative">
+                <div className="relative" ref={notificationRef}>
                   <Button
                     variant="ghost"
                     size="sm"
@@ -125,19 +155,20 @@ const Header: React.FC = () => {
                   <AnimatePresence>
                     {isNotificationsOpen && (
                       <motion.div
-                        initial={{ opacity: 0, y: -10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -10 }}
+                        initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                        transition={{ duration: 0.15 }}
                         className="absolute right-0 mt-2 w-80 bg-casino-card border border-casino-border rounded-xl shadow-xl z-50"
                       >
                         <div className="p-4 border-b border-casino-border">
-                          <h3 className="text-lg font-semibold">Notifications</h3>
+                          <h3 className="text-lg font-semibold text-white">Notifications</h3>
                         </div>
                         <div className="max-h-64 overflow-y-auto">
                           {mockNotifications.map((notification) => (
                             <div
                               key={notification.id}
-                              className={`p-4 border-b border-casino-border last:border-b-0 hover:bg-casino-secondary/50 cursor-pointer ${
+                              className={`p-4 border-b border-casino-border last:border-b-0 hover:bg-casino-secondary/50 cursor-pointer transition-colors ${
                                 notification.unread ? 'bg-gold-500/5' : ''
                               }`}
                             >
@@ -176,7 +207,7 @@ const Header: React.FC = () => {
                 </div>
 
                 {/* Profile Dropdown */}
-                <div className="relative">
+                <div className="relative" ref={profileRef}>
                   <Button
                     variant="ghost"
                     size="sm"
@@ -184,10 +215,10 @@ const Header: React.FC = () => {
                     className="flex items-center space-x-2"
                   >
                     <div className="flex items-center space-x-2">
-                      <div className="h-8 w-8 rounded-full bg-gradient-royal flex items-center justify-center">
+                      <div className="h-8 w-8 rounded-full bg-gradient-to-r from-royal-500 to-royal-600 flex items-center justify-center">
                         <User className="h-5 w-5 text-white" />
                       </div>
-                      <span className="hidden sm:block text-sm font-medium">
+                      <span className="hidden sm:block text-sm font-medium max-w-24 truncate">
                         {user?.username}
                       </span>
                     </div>
@@ -196,19 +227,22 @@ const Header: React.FC = () => {
                   <AnimatePresence>
                     {isProfileOpen && (
                       <motion.div
-                        initial={{ opacity: 0, y: -10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -10 }}
+                        initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                        transition={{ duration: 0.15 }}
                         className="absolute right-0 mt-2 w-64 bg-casino-card border border-casino-border rounded-xl shadow-xl z-50"
                       >
                         <div className="p-4 border-b border-casino-border">
                           <div className="flex items-center space-x-3">
-                            <div className="h-12 w-12 rounded-full bg-gradient-royal flex items-center justify-center">
+                            <div className="h-12 w-12 rounded-full bg-gradient-to-r from-royal-500 to-royal-600 flex items-center justify-center">
                               <User className="h-6 w-6 text-white" />
                             </div>
-                            <div>
-                              <p className="font-semibold">{user?.firstName} {user?.lastName}</p>
-                              <p className="text-sm text-gray-400">{user?.email}</p>
+                            <div className="flex-1 min-w-0">
+                              <p className="font-semibold text-white truncate">
+                                {user?.firstName} {user?.lastName}
+                              </p>
+                              <p className="text-sm text-gray-400 truncate">{user?.email}</p>
                               <div className="flex items-center space-x-1 mt-1">
                                 <Crown className="h-3 w-3 text-gold-500" />
                                 <span className="text-xs text-gold-500">
@@ -223,29 +257,35 @@ const Header: React.FC = () => {
                           <Link
                             to="/profile"
                             className="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-casino-secondary/50 transition-colors"
+                            onClick={() => setIsProfileOpen(false)}
                           >
                             <User className="h-4 w-4 text-gray-400" />
-                            <span>My Profile</span>
+                            <span className="text-white">My Profile</span>
                           </Link>
                           <Link
                             to="/cashier"
                             className="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-casino-secondary/50 transition-colors"
+                            onClick={() => setIsProfileOpen(false)}
                           >
                             <Wallet className="h-4 w-4 text-gray-400" />
-                            <span>Cashier</span>
+                            <span className="text-white">Cashier</span>
                           </Link>
                           <Link
-                            to="/settings"
+                            to="/profile"
                             className="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-casino-secondary/50 transition-colors"
+                            onClick={() => setIsProfileOpen(false)}
                           >
                             <Settings className="h-4 w-4 text-gray-400" />
-                            <span>Settings</span>
+                            <span className="text-white">Settings</span>
                           </Link>
                         </div>
 
                         <div className="p-2 border-t border-casino-border">
                           <button
-                            onClick={logout}
+                            onClick={() => {
+                              logout();
+                              setIsProfileOpen(false);
+                            }}
                             className="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-red-500/10 transition-colors text-red-400 w-full"
                           >
                             <LogOut className="h-4 w-4" />
@@ -302,7 +342,7 @@ const Header: React.FC = () => {
             <div className="px-4 py-6 space-y-4">
               {/* Mobile Balance (if authenticated) */}
               {isAuthenticated && (
-                <div className="balance-card">
+                <div className="bg-casino-card border border-casino-border rounded-lg p-4">
                   <div className="grid grid-cols-2 gap-4 text-center">
                     <div>
                       <p className="text-xs text-gray-400">Gold Coins</p>

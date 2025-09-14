@@ -528,7 +528,7 @@ const VipPage: React.FC = () => {
                       }`}>
                         {reward.type === 'cashback' && <TrendingUp className="w-5 h-5" />}
                         {reward.type === 'bonus' && <Gift className="w-5 h-5" />}
-                        {reward.type === 'tournament' && <Trophy className="w-5 h-5" />}
+                        {reward.type === 'tournament' && <Award className="w-5 h-5" />}
                         {reward.type === 'special' && <Sparkles className="w-5 h-5" />}
                       </div>
                       <div>

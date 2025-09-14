@@ -80,6 +80,7 @@ export const isValidEmail = (email: string): boolean => {
 };
 
 export const isValidPhone = (phone: string): boolean => {
+  // Basic phone validation - at least 10 digits
   const phoneRegex = /^\+?[\d\s\-\(\)]{10,}$/;
   return phoneRegex.test(phone);
 };

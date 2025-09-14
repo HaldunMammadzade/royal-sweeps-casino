@@ -30,10 +30,10 @@ const Footer: React.FC = () => {
       title: 'Support',
       links: [
         { name: 'Help Center', href: '/support' },
-        { name: 'Contact Us', href: '/contact' },
+        { name: 'Contact Us', href: '/support' },
         { name: 'Live Chat', href: '/support' },
-        { name: 'FAQ', href: '/faq' },
-        { name: 'Game Rules', href: '/game-rules' },
+        { name: 'FAQ', href: '/support' },
+        { name: 'Game Rules', href: '/support' },
       ]
     },
     {
@@ -63,7 +63,7 @@ const Footer: React.FC = () => {
           {/* Brand Section */}
           <div className="lg:col-span-2">
             <Link to="/" className="flex items-center space-x-3 mb-6">
-              <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-gradient-gold">
+              <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-gradient-to-r from-gold-500 to-gold-600">
                 <Crown className="h-7 w-7 text-casino-dark" />
               </div>
               <div>

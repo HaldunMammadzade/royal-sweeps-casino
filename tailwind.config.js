@@ -46,6 +46,11 @@ export default {
         sans: ['Inter', 'system-ui', 'sans-serif'],
         display: ['Orbitron', 'monospace'],
       },
+      backgroundImage: {
+        'gradient-gold': 'linear-gradient(135deg, #ffd700 0%, #ffaa00 100%)',
+        'gradient-royal': 'linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%)',
+        'gradient-dark': 'linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%)',
+      },
       animation: {
         'spin-slow': 'spin 3s linear infinite',
         'pulse-gold': 'pulse-gold 2s ease-in-out infinite',
@@ -113,15 +118,6 @@ export default {
           },
         },
       },
-      backgroundImage: {
-        'gradient-gold': 'linear-gradient(135deg, #ffd700 0%, #ffaa00 100%)',
-        'gradient-royal': 'linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%)',
-        'gradient-dark': 'linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%)',
-        'casino-pattern': "url('/src/assets/images/casino-pattern.svg')",
-      },
-      backdropBlur: {
-        xs: '2px',
-      }
     },
   },
   plugins: [],

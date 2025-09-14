@@ -16,7 +16,10 @@ import {
   Award,
   TrendingUp,
   Clock,
-  Lock
+  Lock,
+  CreditCard,
+  Gift,
+  Trophy
 } from 'lucide-react';
 import Button from '@/components/common/Button';
 import { useAuth } from '@/hooks/useAuth';
@@ -117,7 +120,7 @@ const ProfilePage: React.FC = () => {
           className="mb-8"
         >
           <div className="flex items-center space-x-4 mb-4">
-            <div className="w-16 h-16 bg-gradient-royal rounded-full flex items-center justify-center">
+            <div className="w-16 h-16 bg-gradient-to-r from-royal-500 to-royal-600 rounded-full flex items-center justify-center">
               <User className="w-8 h-8 text-white" />
             </div>
             <div>
@@ -337,12 +340,16 @@ const ProfilePage: React.FC = () => {
                 <div className="vip-progress" style={{ '--progress': `${user.vipLevel?.progress}%` } as any} />
                 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-4">
-                  {user.vipLevel?.benefits.map((benefit, index) => (
+                  {user.vipLevel?.benefits?.map((benefit, index) => (
                     <div key={index} className="text-center">
                       <Award className="w-6 h-6 text-gold-500 mx-auto mb-2" />
                       <div className="text-sm text-gray-300">{benefit}</div>
                     </div>
-                  ))}
+                  )) || (
+                    <div className="col-span-4 text-center text-gray-400">
+                      No VIP benefits available
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -362,7 +369,7 @@ const ProfilePage: React.FC = () => {
                 Change Password
               </h2>
               
-              <div className="max-w-md space-y-4">
+              <form className="max-w-md space-y-4" onSubmit={(e) => { e.preventDefault(); handlePasswordUpdate(); }}>
                 <div>
                   <label className="form-label">Current Password</label>
                   <div className="relative">
@@ -414,13 +421,13 @@ const ProfilePage: React.FC = () => {
                 </div>
                 
                 <Button
+                  type="submit"
                   variant="primary"
-                  onClick={handlePasswordUpdate}
                   disabled={!passwordData.currentPassword || !passwordData.newPassword || !passwordData.confirmPassword}
                 >
                   Update Password
                 </Button>
-              </div>
+              </form>
             </div>
 
             {/* Two-Factor Authentication */}
