@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Eye, EyeOff, Mail, Lock, Crown, Shield, Gift } from 'lucide-react';
-import Button from '../components/common/Button';
-import { useAuth } from '../context/AuthContext';
-import { isValidEmail } from '../utils/helpers';
+import Button from '@/components/common/Button';
+import { useAuth } from '@/context/AuthContext';
+import { isValidEmail } from '@/utils/helpers';
+// import type { LoginCredentials } from '@/types';
 import toast from 'react-hot-toast';
 
 const LoginPage = () => {
@@ -36,16 +37,16 @@ const LoginPage = () => {
   };
 
   const validateForm = () => {
-    let newErrors = {};
+    const newErrors = {};
 
     if (!formData.email) {
-      newErrors = 'Email is required';
+      newErrors.email = 'Email is required';
     } else if (!isValidEmail(formData.email)) {
-      newErrors = 'Please enter a valid email address';
+      newErrors.email = 'Please enter a valid email address';
     }
 
     if (!formData.password) {
-      newErrors = 'Password is required';
+      newErrors.password = 'Password is required';
     }
 
     setErrors(newErrors);
@@ -249,7 +250,7 @@ const LoginPage = () => {
           </motion.div>
 
           {/* Social Login */}
-          {/* <motion.div
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.7 }}
@@ -263,10 +264,10 @@ const LoginPage = () => {
                 transition={{ delay: 0.7 + index * 0.1 }}
                 className={`w-full inline-flex justify-center py-2 px-4 border border-gray-600 rounded-md shadow-sm text-sm font-medium transition-colors ${social.color}`}
               >
-                <span className="text-xl">{social.icon}</span>
+                {/* <span className="text-xl">{social.icon}</span> */}
               </motion.button>
             ))}
-          </motion.div> */}
+          </motion.div>
 
           {/* Sign Up Link */}
           <motion.div

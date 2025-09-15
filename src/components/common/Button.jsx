@@ -75,7 +75,7 @@ const Button = ({
     <button
       className={buttonClasses}
       disabled={disabled || loading}
-      {...props}
+      {...(props)}
     >
       <ButtonContent />
     </button>
